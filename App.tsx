@@ -1,20 +1,29 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { type PropsWithChildren } from "react"
+import { Onboarding } from "./src/views/Onboarding"
+import { NavigationContainer } from "@react-navigation/native"
+import { createNativeStackNavigator } from "@react-navigation/native-stack"
+import { GroupSetup } from "./src/views/GroupSetup"
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+export type RootStackParamList = {
+  Onboarding: undefined
+  GroupSetup: undefined
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const Stack = createNativeStackNavigator<RootStackParamList>()
+const screenOptions = { headerShown: false }
+
+const App = () => {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator
+        initialRouteName="Onboarding"
+        screenOptions={screenOptions}
+      >
+        <Stack.Screen name="Onboarding" component={Onboarding} />
+        <Stack.Screen name="GroupSetup" component={GroupSetup} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  )
+}
+
+export default App
