@@ -12,24 +12,37 @@ import { DaySwitch } from "../components/DaySwitch"
 import { DayInfo } from "../components/DayInfo"
 import { ClassCard } from "../components/ClassCard"
 import { ClassBreak } from "../components/ClassBreak"
+import { WeeksModal } from "../components/WeeksModal"
+import { BlurView } from "expo-blur"
+import { NoClasses } from "../components/NoClasses"
 
 type Props = NativeStackScreenProps<RootStackParamList, "Schedule">
 
 export const Schedule = ({ navigation }: Props) => {
+  const [weeksModal, setWeeksModal] = React.useState<boolean>(false)
+
   return (
     <Fragment>
       <SafeAreaView style={styles.topSafeArea} />
       <SafeAreaView style={styles.safeArea}>
         <StatusBar barStyle="light-content" />
+        {/* Weeks Modal */}
+        <WeeksModal isVisible={weeksModal} setIsVisible={setWeeksModal} />
         <View style={styles.container}>
           <View style={styles.daySwitch}>
-            <DaySwitch />
+            <DaySwitch onPress={() => setWeeksModal(true)} />
           </View>
           {/* Schedule */}
           <ScrollView style={styles.schedule}>
-            <DayInfo day={"Понедельник"} date={"22.04.22"} amount={3} />
+            <DayInfo
+              day={"Суббота"}
+              date={"27.04.22"}
+              amount={0}
+            />
             <View style={styles.classes}>
-              <ClassCard
+              <NoClasses />
+              
+              {/* <ClassCard
                 subject="Математический анализ и линейная алгебра"
                 type="Лекция"
                 number={2}
@@ -69,11 +82,14 @@ export const Schedule = ({ navigation }: Props) => {
                 location="A12"
                 professor="Смоленцева Т.Е."
                 isLate={true}
-              />
+              /> */}
             </View>
           </ScrollView>
         </View>
       </SafeAreaView>
+      {weeksModal ? (
+        <BlurView intensity={10} style={styles.overlayView} />
+      ) : null}
     </Fragment>
   )
 }
@@ -103,5 +119,13 @@ const styles = StyleSheet.create({
     paddingTop: 7.5,
     paddingBottom: 25,
     paddingHorizontal: 25
+  },
+  overlayView: {
+    position: "absolute",
+    backgroundColor: "rgba(0, 0, 0, 0.4)",
+    top: 0,
+    left: 0,
+    height: "100%",
+    width: "100%"
   }
 })

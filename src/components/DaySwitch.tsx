@@ -1,10 +1,20 @@
-import { Pressable, StyleSheet, Text, View } from "react-native"
-import React, { FC } from "react"
+import {
+  GestureResponderEvent,
+  Pressable,
+  StyleSheet,
+  Text,
+  View
+} from "react-native"
+import React, { Dispatch, FC, SetStateAction } from "react"
 import { InlineButton } from "./InlineButton"
 import { Day } from "./Day"
 
-export const DaySwitch: FC = () => {
-  const [activeDay, setActiveDay] = React.useState("ЧТ")
+type Props = {
+  onPress: () => void
+}
+
+export const DaySwitch: FC<Props> = ({ onPress }) => {
+  const [activeDay, setActiveDay] = React.useState("СБ")
 
   const daysPayload = [
     {
@@ -54,9 +64,7 @@ export const DaySwitch: FC = () => {
     <View style={styles.daySwitch}>
       <View style={styles.week}>
         <Text style={styles.weekText}>Неделя 12</Text>
-        <Pressable>
-          <InlineButton text="Выбрать" type="primary" onPress={() => {}} />
-        </Pressable>
+        <InlineButton text="Выбрать" type="primary" onPress={onPress} />
       </View>
       <View style={styles.days}>{days}</View>
     </View>

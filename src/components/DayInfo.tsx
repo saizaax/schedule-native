@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View } from "react-native"
-import React, { FC } from "react"
+import React, { FC, Fragment } from "react"
+import { getClassesAmount } from "../utils/getClassesAmount"
 
 type Props = {
   day: string
@@ -10,14 +11,16 @@ type Props = {
 export const DayInfo: FC<Props> = ({ day, date, amount }) => {
   return (
     <View style={styles.dayInfoContainer}>
-      <View style={styles.dayStatus} />
+      <View style={amount ? styles.dayStatus : styles.dayStatusFree} />
       <Text style={styles.dayInfoText}>{day}</Text>
       <View style={styles.dayInfoSeparator} />
       <Text style={styles.dayInfoText}>{date}</Text>
-      <View style={styles.dayInfoSeparator} />
-      <Text style={styles.dayInfoText}>
-        {amount ? `${amount} пары` : `нет пар`}
-      </Text>
+      {amount ? (
+        <Fragment>
+          <View style={styles.dayInfoSeparator} />
+          <Text style={styles.dayInfoText}>{getClassesAmount(amount)}</Text>
+        </Fragment>
+      ) : null}
     </View>
   )
 }
@@ -43,6 +46,13 @@ const styles = StyleSheet.create({
     marginRight: 7,
     borderRadius: 7,
     backgroundColor: "#2F82FF"
+  },
+  dayStatusFree: {
+    width: 7,
+    height: 7,
+    marginRight: 7,
+    borderRadius: 7,
+    backgroundColor: "#35C772"
   },
   dayInfoSeparator: {
     width: 3.5,
