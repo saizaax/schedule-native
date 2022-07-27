@@ -44,7 +44,7 @@ export const GroupSetup = ({ navigation }: Props) => {
             />
             <Button
               text="Подтвердить"
-              onPress={() => {}}
+              onPress={() => navigation.navigate("Schedule")}
               styles={{ marginTop: 20 }}
               type="primary"
             />
