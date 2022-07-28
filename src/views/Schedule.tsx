@@ -3,7 +3,9 @@ import {
   StatusBar,
   StyleSheet,
   ScrollView,
-  View
+  View,
+  Text,
+  Pressable,
 } from "react-native"
 import React, { Fragment } from "react"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
@@ -15,6 +17,7 @@ import { ClassBreak } from "../components/ClassBreak"
 import { WeeksModal } from "../components/WeeksModal"
 import { BlurView } from "expo-blur"
 import { NoClasses } from "../components/NoClasses"
+import { Tabs } from "../components/Tabs"
 
 type Props = NativeStackScreenProps<RootStackParamList, "Schedule">
 
@@ -28,6 +31,7 @@ export const Schedule = ({ navigation }: Props) => {
         <StatusBar barStyle="light-content" />
         {/* Weeks Modal */}
         <WeeksModal isVisible={weeksModal} setIsVisible={setWeeksModal} />
+        <Tabs location="schedule" navigation={navigation} />
         <View style={styles.container}>
           <View style={styles.daySwitch}>
             <DaySwitch onPress={() => setWeeksModal(true)} />
