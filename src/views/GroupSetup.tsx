@@ -18,11 +18,37 @@ import { HelpScreen } from "../components/HelpScreen"
 import { GroupInput } from "../components/GroupInput"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { RootStackParamList } from "../../App"
+import { useAppDispatch } from "../redux/store"
+import { setGroup } from "../redux/settings/slice"
 
 type Props = NativeStackScreenProps<RootStackParamList, "GroupSetup">
 
 export const GroupSetup = ({ navigation }: Props) => {
+  const dispatch = useAppDispatch()
+
   const [isKeyboardVisible, setIsKeyboardVisible] = React.useState(false)
+
+  const [groupId, setGroupId] = React.useState("")
+  const [isGroupValid, setIsGroupValid] = React.useState(false)
+
+  const setIsGroupValidCallback = React.useCallback(
+    (isValid: boolean) => {
+      setIsGroupValid(isValid)
+    },
+    [setIsGroupValid]
+  )
+
+  const setGroupIdCallback = React.useCallback(
+    (id: string) => {
+      setGroupId(id)
+    },
+    [setGroupId]
+  )
+
+  const handleGroupSet = () => {
+    dispatch(setGroup(groupId))
+    navigation.navigate("Schedule")
+  }
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -41,18 +67,21 @@ export const GroupSetup = ({ navigation }: Props) => {
               onFocus={() => setIsKeyboardVisible(true)}
               onBlur={() => setIsKeyboardVisible(false)}
               placeholder={"ИКБО-13-19"}
+              isValid={isGroupValid}
+              setIsValid={setIsGroupValidCallback}
+              setGroup={setGroupIdCallback}
             />
             <Button
               text="Подтвердить"
-              onPress={() => navigation.navigate("Schedule")}
+              onPress={isGroupValid ? handleGroupSet : () => {}}
               styles={{ marginTop: 20 }}
-              type="primary"
+              type={isGroupValid ? "primary" : "secondary"}
             />
             <View style={styles.textContainer}>
               <Text style={styles.text}>Не можете найти вашу группу?</Text>
               <Text
                 style={styles.textPrimary}
-                onPress={() => Linking.openURL("http://google.com")}
+                onPress={() => Linking.openURL("https://t.me/saizaax")}
               >
                 Напишите нам 😉
               </Text>

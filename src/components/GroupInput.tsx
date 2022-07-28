@@ -8,16 +8,29 @@ type Props = {
   placeholder?: string
   onFocus: () => void
   onBlur: () => void
+  isValid: boolean
+  setIsValid: (value: boolean) => void
+  setGroup: (value: string) => void
 }
 
 export const GroupInput: FC<Props> = ({
   initialValue,
   placeholder,
   onFocus,
-  onBlur
+  onBlur,
+  isValid,
+  setIsValid,
+  setGroup
 }) => {
   const [text, onChangeText] = React.useState(initialValue ? initialValue : "")
   const inputRef = React.useRef<View>(null)
+
+  React.useEffect(() => {
+    setGroup(text)
+
+    if (text.length === 10) setIsValid(true)
+    else setIsValid(false)
+  }, [text])
 
   return (
     <View style={styles.container} ref={inputRef}>
@@ -31,7 +44,7 @@ export const GroupInput: FC<Props> = ({
         onFocus={onFocus}
         onBlur={onBlur}
       />
-      {text ? <Image source={checkIcon} style={styles.icon} /> : null}
+      {isValid ? <Image source={checkIcon} style={styles.icon} /> : null}
     </View>
   )
 }

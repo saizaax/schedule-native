@@ -1,6 +1,5 @@
 import { Pressable, StyleSheet, View, Image } from "react-native"
 import React, { FC } from "react"
-import { NativeStackNavigationProp } from "@react-navigation/native-stack"
 
 import {
   menuLocationIcon,
@@ -24,7 +23,7 @@ export const Tabs: FC<Props> = ({ location, navigation }) => {
   return (
     <View style={styles.tabs}>
       <Pressable
-        style={styles.tab}
+        style={({ pressed }) => [styles.tab, { opacity: pressed ? 0.8 : 1 }]}
         onPress={() => navigation.navigate("Schedule")}
       >
         {location === "schedule" ? (
@@ -34,7 +33,7 @@ export const Tabs: FC<Props> = ({ location, navigation }) => {
         )}
       </Pressable>
       <Pressable
-        style={styles.tab}
+        style={({ pressed }) => [styles.tab, { opacity: pressed ? 0.8 : 1 }]}
         onPress={() => navigation.navigate("Semester")}
       >
         {location === "semester" ? (
@@ -44,7 +43,7 @@ export const Tabs: FC<Props> = ({ location, navigation }) => {
         )}
       </Pressable>
       <Pressable
-        style={styles.tab}
+        style={({ pressed }) => [styles.tab, { opacity: pressed ? 0.8 : 1 }]}
         onPress={() => navigation.navigate("Location")}
       >
         {location === "location" ? (
@@ -54,7 +53,7 @@ export const Tabs: FC<Props> = ({ location, navigation }) => {
         )}
       </Pressable>
       <Pressable
-        style={styles.tab}
+        style={({ pressed }) => [styles.tab, { opacity: pressed ? 0.8 : 1 }]}
         onPress={() => navigation.navigate("Professor")}
       >
         {location === "professor" ? (
@@ -64,7 +63,7 @@ export const Tabs: FC<Props> = ({ location, navigation }) => {
         )}
       </Pressable>
       <Pressable
-        style={styles.tab}
+        style={({ pressed }) => [styles.tab, { opacity: pressed ? 0.8 : 1 }]}
         onPress={() => navigation.navigate("Settings")}
       >
         {location === "settings" ? (

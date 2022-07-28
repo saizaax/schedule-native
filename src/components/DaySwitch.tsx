@@ -1,21 +1,28 @@
-import {
-  GestureResponderEvent,
-  Pressable,
-  StyleSheet,
-  Text,
-  View
-} from "react-native"
-import React, { Dispatch, FC, SetStateAction } from "react"
+import { StyleSheet, Text, View } from "react-native"
+import React, { FC } from "react"
 import { InlineButton } from "./InlineButton"
 import { Day } from "./Day"
+import { getCurrentWeekDays } from "../utils/getCurrentWeekDays"
+import { useAppDispatch } from "../redux/store"
+import { useSelector } from "react-redux"
+import { selectDay, selectWeek } from "../redux/settings/selectors"
+import { setDay, setDate } from "../redux/settings/slice"
 
 type Props = {
   onPress: () => void
 }
 
 export const DaySwitch: FC<Props> = ({ onPress }) => {
-  const [activeDay, setActiveDay] = React.useState("СБ")
+  const dispatch = useAppDispatch()
+  const currentDay = useSelector(selectDay)
+  const currentWeek = useSelector(selectWeek)
 
+  const handleDayChange = (date: string, day: string) => {
+    dispatch(setDate(date))
+    dispatch(setDay(day))
+  }
+
+  const currentWeekDays = React.useMemo(() => getCurrentWeekDays(), [])
   const daysPayload = [
     {
       name: "ПН",
@@ -47,15 +54,15 @@ export const DaySwitch: FC<Props> = ({ onPress }) => {
       date: "27.04",
       isFree: true
     }
-  ]
+  ].map((day, index) => ({ ...day, date: currentWeekDays[index] }))
 
   const days = daysPayload.map((day, index) => (
     <Day
       day={day.name}
-      date={day.date}
-      isActive={activeDay === day.name}
+      date={day.date.slice(0, 5)}
+      isActive={currentDay === day.name}
       isFree={day.isFree}
-      onPress={() => setActiveDay(day.name)}
+      onPress={() => handleDayChange(day.date, day.name)}
       key={index}
     />
   ))
@@ -63,7 +70,7 @@ export const DaySwitch: FC<Props> = ({ onPress }) => {
   return (
     <View style={styles.daySwitch}>
       <View style={styles.week}>
-        <Text style={styles.weekText}>Неделя 12</Text>
+        <Text style={styles.weekText}>Неделя {currentWeek}</Text>
         <InlineButton text="Выбрать" type="primary" onPress={onPress} />
       </View>
       <View style={styles.days}>{days}</View>

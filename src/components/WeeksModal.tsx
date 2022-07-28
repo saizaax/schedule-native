@@ -9,6 +9,10 @@ import {
 import React, { FC } from "react"
 import { Button } from "./Button"
 import { Week } from "./Week"
+import { useSelector } from "react-redux"
+import { selectWeek } from "../redux/settings/selectors"
+import { useAppDispatch } from "../redux/store"
+import { setWeek } from "../redux/settings/slice"
 
 type Props = {
   isVisible: boolean
@@ -16,7 +20,12 @@ type Props = {
 }
 
 export const WeeksModal: FC<Props> = ({ isVisible, setIsVisible }) => {
-  const [activeWeek, setActiveWeek] = React.useState(12)
+  const dispatch = useAppDispatch()
+  const currentWeek = useSelector(selectWeek)
+
+  const handleWeekChange = (week: number) => {
+    dispatch(setWeek(week))
+  }
 
   return (
     <Modal
@@ -34,8 +43,8 @@ export const WeeksModal: FC<Props> = ({ isVisible, setIsVisible }) => {
                 <Week
                   number={week}
                   key={week}
-                  isActive={week === activeWeek}
-                  setActive={() => setActiveWeek(week)}
+                  isActive={week === currentWeek}
+                  setActive={() => handleWeekChange(week)}
                 />
               ))}
             </View>
@@ -45,8 +54,8 @@ export const WeeksModal: FC<Props> = ({ isVisible, setIsVisible }) => {
                 <Week
                   number={week}
                   key={week}
-                  isActive={week === activeWeek}
-                  setActive={() => setActiveWeek(week)}
+                  isActive={week === currentWeek}
+                  setActive={() => handleWeekChange(week)}
                 />
               ))}
             </View>
@@ -56,8 +65,8 @@ export const WeeksModal: FC<Props> = ({ isVisible, setIsVisible }) => {
                 <Week
                   number={week}
                   key={week}
-                  isActive={week === activeWeek}
-                  setActive={() => setActiveWeek(week)}
+                  isActive={week === currentWeek}
+                  setActive={() => handleWeekChange(week)}
                 />
               ))}
             </View>

@@ -3,17 +3,13 @@ import {
   StatusBar,
   StyleSheet,
   ScrollView,
-  View,
-  Text,
-  Pressable,
+  View
 } from "react-native"
 import React, { Fragment } from "react"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { RootStackParamList } from "../../App"
 import { DaySwitch } from "../components/DaySwitch"
 import { DayInfo } from "../components/DayInfo"
-import { ClassCard } from "../components/ClassCard"
-import { ClassBreak } from "../components/ClassBreak"
 import { WeeksModal } from "../components/WeeksModal"
 import { BlurView } from "expo-blur"
 import { NoClasses } from "../components/NoClasses"
@@ -38,14 +34,10 @@ export const Schedule = ({ navigation }: Props) => {
           </View>
           {/* Schedule */}
           <ScrollView style={styles.schedule}>
-            <DayInfo
-              day={"Суббота"}
-              date={"27.04.22"}
-              amount={0}
-            />
+            <DayInfo />
             <View style={styles.classes}>
               <NoClasses />
-              
+
               {/* <ClassCard
                 subject="Математический анализ и линейная алгебра"
                 type="Лекция"

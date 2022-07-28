@@ -1,14 +1,19 @@
 import { StyleSheet, Text, View } from "react-native"
 import React, { FC, Fragment } from "react"
 import { getClassesAmount } from "../utils/getClassesAmount"
+import { useSelector } from "react-redux"
+import {
+  selectAmount,
+  selectDate,
+  selectDay
+} from "../redux/settings/selectors"
+import { getDayOfWeek } from "../utils/getDayOfWeek"
 
-type Props = {
-  day: string
-  date: string
-  amount: number
-}
+export const DayInfo: FC = () => {
+  const amount = useSelector(selectAmount)
+  const date = useSelector(selectDate)
+  const day = getDayOfWeek(useSelector(selectDay))
 
-export const DayInfo: FC<Props> = ({ day, date, amount }) => {
   return (
     <View style={styles.dayInfoContainer}>
       <View style={amount ? styles.dayStatus : styles.dayStatusFree} />

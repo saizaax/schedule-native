@@ -1,11 +1,11 @@
-import React, { FC, type PropsWithChildren } from "react"
+import React, { FC } from "react"
 import { Pressable, StyleSheet, Text } from "react-native"
 
 type Props = {
   text: string
   onPress: () => void
   styles?: { [key: string]: any }
-  type: "primary"
+  type: "primary" | "secondary"
 }
 
 export const Button: FC<Props> = ({
@@ -41,6 +41,9 @@ const styles = StyleSheet.create({
   },
   primary: {
     backgroundColor: "#2F82FF"
+  },
+  secondary: {
+    backgroundColor: "#9DA0AC"
   },
   text: {
     color: "#fff",
