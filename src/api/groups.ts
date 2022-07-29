@@ -9,5 +9,7 @@ export const getGroups = async (params: IParams) => {
   const { data } = await API.get<IGroup[]>("/groups", {
     params: pickBy(params, identity)
   })
-  return data
+  const [group] = data
+
+  return group
 }

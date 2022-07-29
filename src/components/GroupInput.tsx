@@ -2,6 +2,11 @@ import { Image, StyleSheet, TextInput, View } from "react-native"
 import React, { FC } from "react"
 
 import { checkIcon } from "../../assets"
+import debounce from "lodash.debounce"
+import { useAppDispatch } from "../redux/store"
+import { fetchGroups } from "../redux/schedule/actions"
+import { useSelector } from "react-redux"
+import { selectGroup } from "../redux/schedule/selectors"
 
 type Props = {
   initialValue?: string
@@ -22,15 +27,28 @@ export const GroupInput: FC<Props> = ({
   setIsValid,
   setGroup
 }) => {
-  const [text, onChangeText] = React.useState(initialValue ? initialValue : "")
+  const dispatch = useAppDispatch()
+  const group = useSelector(selectGroup)
+
+  const [text, setText] = React.useState(initialValue ? initialValue : "")
   const inputRef = React.useRef<View>(null)
+
+  const updateGroup = React.useCallback(
+    debounce((name: string) => {
+      if (name.length === 10) dispatch(fetchGroups({ name }))
+    }, 200),
+    []
+  )
+
+  const onChangeText = (value: string) => {
+    setText(value)
+    updateGroup(value)
+  }
 
   React.useEffect(() => {
     setGroup(text)
-
-    if (text.length === 10) setIsValid(true)
-    else setIsValid(false)
-  }, [text])
+    group.name ? setIsValid(true) : setIsValid(false)
+  }, [text, group])
 
   return (
     <View style={styles.container} ref={inputRef}>

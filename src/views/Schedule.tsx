@@ -14,11 +14,51 @@ import { WeeksModal } from "../components/WeeksModal"
 import { BlurView } from "expo-blur"
 import { NoClasses } from "../components/NoClasses"
 import { Tabs } from "../components/Tabs"
+import { useSelector } from "react-redux"
+import { selectSchedule } from "../redux/schedule/selectors"
+import { ISchedule } from "../types/ISchedule"
+import { selectDay } from "../redux/settings/selectors"
+import { IClass } from "../types/IClass"
+import { ClassCard } from "../components/ClassCard"
+import { IDay } from "../types/IDay"
+import { useAppDispatch } from "../redux/store"
+import { setAmount } from "../redux/settings/slice"
 
 type Props = NativeStackScreenProps<RootStackParamList, "Schedule">
 
 export const Schedule = ({ navigation }: Props) => {
+  const dispatch = useAppDispatch()
+
+  const schedule = useSelector(selectSchedule)
+  const day = useSelector(selectDay)
+
   const [weeksModal, setWeeksModal] = React.useState<boolean>(false)
+  const [classes, setClasses] = React.useState<IClass[]>([])
+
+  const getTodaySchedule = (schedule: ISchedule) => {
+    const today: IDay = Object.values(schedule).find(
+      (value) => value.dayShort === day
+    )
+    setClasses(today.classes)
+    dispatch(setAmount(today.classes.length))
+  }
+
+  React.useEffect(() => {
+    getTodaySchedule(schedule)
+  }, [day])
+
+  const todayClasses = classes.map((item) => (
+    <ClassCard
+      subject={item.subject}
+      type={item.type}
+      number={item.number}
+      timeStart={item.timeStart}
+      timeEnd={item.timeEnd}
+      location={item.location}
+      professor={item.professor}
+      isLate={false}
+    />
+  ))
 
   return (
     <Fragment>
@@ -36,49 +76,8 @@ export const Schedule = ({ navigation }: Props) => {
           <ScrollView style={styles.schedule}>
             <DayInfo />
             <View style={styles.classes}>
-              <NoClasses />
-
-              {/* <ClassCard
-                subject="Математический анализ и линейная алгебра"
-                type="Лекция"
-                number={2}
-                timeStart="10:40"
-                timeEnd="12:10"
-                location="A12"
-                professor="Смоленцева Т.Е."
-                isLate={true}
-              />
-              <ClassBreak minutes={30} />
-              <ClassCard
-                subject="Математический анализ и линейная алгебра"
-                type="Лекция"
-                number={2}
-                timeStart="10:40"
-                timeEnd="12:10"
-                location="A12"
-                professor="Смоленцева Т.Е."
-                isLate={true}
-              />
-              <ClassCard
-                subject="Математический анализ и линейная алгебра"
-                type="Лекция"
-                number={2}
-                timeStart="10:40"
-                timeEnd="12:10"
-                location="A12"
-                professor="Смоленцева Т.Е."
-                isLate={true}
-              />
-              <ClassCard
-                subject="Математический анализ и линейная алгебра"
-                type="Лекция"
-                number={2}
-                timeStart="10:40"
-                timeEnd="12:10"
-                location="A12"
-                professor="Смоленцева Т.Е."
-                isLate={true}
-              /> */}
+              {classes.length ? todayClasses : <NoClasses />}
+              {/* <ClassBreak minutes={30} /> */}
             </View>
           </ScrollView>
         </View>
