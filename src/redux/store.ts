@@ -2,10 +2,12 @@ import { configureStore } from "@reduxjs/toolkit"
 import { useDispatch } from "react-redux"
 
 import settings from "./settings/slice"
+import schedule from "./schedule/slice"
 
 export const store = configureStore({
   reducer: {
-    settings
+    settings,
+    schedule
   }
 })
 
