@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage"
 import {
   SafeAreaView,
   StatusBar,
@@ -45,7 +46,8 @@ export const GroupSetup = ({ navigation }: Props) => {
     [setGroupId]
   )
 
-  const handleGroupSet = () => {
+  const handleGroupSet = async () => {
+    await AsyncStorage.setItem("@storage_group", groupId)
     dispatch(setGroup(groupId))
     navigation.navigate("Schedule")
   }

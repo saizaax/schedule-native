@@ -2,14 +2,15 @@ import { Image, StyleSheet, Text, View } from "react-native"
 import React, { FC } from "react"
 
 import { sleepEmoji } from "../../assets"
+import Animated, { FadeInDown } from "react-native-reanimated"
 
 export const NoClasses: FC = () => {
   return (
-    <View style={styles.card}>
+    <Animated.View style={styles.card} entering={FadeInDown.springify()}>
       <Image source={sleepEmoji} style={styles.emoji} />
       <Text style={styles.title}>Сегодня пар нет!</Text>
       <Text style={styles.subtitle}>Можно спать спокойно</Text>
-    </View>
+    </Animated.View>
   )
 }
 

@@ -47,8 +47,10 @@ export const Schedule = ({ navigation }: Props) => {
     getTodaySchedule(schedule)
   }, [day])
 
-  const todayClasses = classes.map((item) => (
+  const todayClasses = classes.map((item, index) => (
     <ClassCard
+      index={index}
+      key={item.id}
       subject={item.subject}
       type={item.type}
       number={item.number}

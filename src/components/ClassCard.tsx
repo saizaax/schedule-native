@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native"
+import { StyleSheet, View } from "react-native"
 import React, { FC } from "react"
 import { ClassSubject } from "./ClassSubject"
 import { ClassProfessor } from "./ClassProfessor"
@@ -6,6 +6,7 @@ import { ClassType } from "./ClassType"
 import { ClassNumber } from "./ClassNumber"
 import { ClassTime } from "./ClassTime"
 import { ClassLocation } from "./ClassLocation"
+import Animated, { BounceInDown, FadeInDown } from "react-native-reanimated"
 
 type Props = {
   subject: string
@@ -16,6 +17,7 @@ type Props = {
   timeEnd: string
   location: string
   isLate: boolean
+  index: number
 }
 
 export const ClassCard: FC<Props> = ({
@@ -26,10 +28,14 @@ export const ClassCard: FC<Props> = ({
   timeStart,
   timeEnd,
   location,
-  isLate
+  isLate,
+  index
 }) => {
   return (
-    <View style={styles.item}>
+    <Animated.View
+      style={styles.item}
+      entering={FadeInDown.delay(index * 85).springify()}
+    >
       <View style={styles.card}>
         <ClassSubject name={subject} />
         <View style={styles.symbols}>
@@ -44,7 +50,7 @@ export const ClassCard: FC<Props> = ({
         <ClassType name={type} isLate={isLate} />
         <ClassNumber number={number} />
       </View>
-    </View>
+    </Animated.View>
   )
 }
 
