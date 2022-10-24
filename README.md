@@ -1,9 +1,9 @@
 # Schedule Native — Mobile Schedule App for RTU MIREA 📱
 
-[![Expo](https://img.shields.io/badge/Expo-eeeeee?logo=expo&logoColor=000020)](https://reactnative.dev/)
+[![Expo](https://img.shields.io/badge/Expo-eeeeee?logo=expo&logoColor=000020)](https://expo.dev/)
 [![React Native](https://img.shields.io/badge/React%20Native-282C34?logo=react&logoColor=white)](https://reactnative.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Redux](https://img.shields.io/badge/Redux-764ABC?logo=redux&logoColor=white)](https://www.typescriptlang.org/)
+[![Redux](https://img.shields.io/badge/Redux-764ABC?logo=redux&logoColor=white)](https://redux.js.org/)
 
 ![](preview.png)
 
